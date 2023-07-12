@@ -34,9 +34,9 @@ public class UserController {
     @ResponseStatus(CREATED)
     @PostMapping("/user/login")
     public IdResponse login(@RequestBody LoginRequest request) {
-        UserVo value = userService.login(request.email(), request.password()).values();
+        User loginUser = userService.login(request.email(), request.password());
 
-        return new IdResponse(value.userId());
+        return new IdResponse(loginUser.getId());
     }
 
     @ResponseStatus(CREATED)

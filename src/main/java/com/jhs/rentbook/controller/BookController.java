@@ -4,7 +4,6 @@ import com.jhs.rentbook.controller.dto.IdResponse;
 import com.jhs.rentbook.controller.dto.book.BookInfo;
 import com.jhs.rentbook.controller.dto.book.SaveBookRequest;
 import com.jhs.rentbook.domain.book.Book;
-import com.jhs.rentbook.domain.book.vo.BookVo;
 import com.jhs.rentbook.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +23,9 @@ public class BookController {
     public IdResponse saveBook(@RequestBody SaveBookRequest request) {
         Book book = Book.of(request.bookName(), request.bookType());
 
-        BookVo values = service.save(book).values();
+        Book savedBook = service.save(book);
 
-        return new IdResponse(values.id());
+        return new IdResponse(savedBook.getId());
     }
 
     @GetMapping("/books")

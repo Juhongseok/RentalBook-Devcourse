@@ -34,4 +34,8 @@ public class Book extends BaseTimeEntity {
     public static Book of(String name, String type) {
         return new Book(null, name, BookType.valueOf(type), RentalStatus.RETURNED);
     }
+
+    public Long getId() {
+        return id;
+    }
 }

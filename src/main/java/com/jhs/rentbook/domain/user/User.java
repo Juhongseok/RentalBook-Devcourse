@@ -2,6 +2,7 @@ package com.jhs.rentbook.domain.user;
 
 import com.jhs.rentbook.domain.BaseTimeEntity;
 import com.jhs.rentbook.domain.user.vo.UserVo;
+import com.jhs.rentbook.global.exception.NotMatchException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -33,5 +34,15 @@ public class User extends BaseTimeEntity {
 
     public UserVo values() {
         return new UserVo(id, name, account.getEmail(), role.name());
+    }
+
+    public void checkPassword(String password) {
+        if(!account.correctPassword(password)) {
+            throw new NotMatchException("비밀번호가 일치하지 않습니다");
+        }
+    }
+
+    public Long getId() {
+        return id;
     }
 }
