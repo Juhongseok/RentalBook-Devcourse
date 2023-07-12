@@ -2,10 +2,12 @@ package com.jhs.rentbook.controller;
 
 import com.jhs.rentbook.controller.dto.IdResponse;
 import com.jhs.rentbook.controller.dto.book.BookInfo;
+import com.jhs.rentbook.controller.dto.book.SaveBookRequest;
 import com.jhs.rentbook.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class BookController {
     private final BookService service;
 
     @PostMapping("/book")
-    public IdResponse saveBook() {
+    public IdResponse saveBook(@RequestBody SaveBookRequest request) {
         return new IdResponse(0L);
     }
 

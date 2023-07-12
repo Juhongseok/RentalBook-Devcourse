@@ -1,7 +1,7 @@
 package com.jhs.rentbook.service;
 
-import com.jhs.rentbook.domain.User;
-import com.jhs.rentbook.domain.UserBookRental;
+import com.jhs.rentbook.domain.user.User;
+import com.jhs.rentbook.domain.rental.UserBookRental;
 
 import java.util.List;
 

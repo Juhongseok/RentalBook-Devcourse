@@ -1,6 +1,6 @@
 package com.jhs.rentbook.repository;
 
-import com.jhs.rentbook.domain.User;
+import com.jhs.rentbook.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

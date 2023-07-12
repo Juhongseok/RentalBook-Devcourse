@@ -1,6 +1,6 @@
 package com.jhs.rentbook.service;
 
-import com.jhs.rentbook.domain.Book;
+import com.jhs.rentbook.domain.book.Book;
 
 import java.util.List;
 

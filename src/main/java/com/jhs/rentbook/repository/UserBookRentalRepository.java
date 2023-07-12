@@ -1,6 +1,6 @@
 package com.jhs.rentbook.repository;
 
-import com.jhs.rentbook.domain.UserBookRental;
+import com.jhs.rentbook.domain.rental.UserBookRental;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
