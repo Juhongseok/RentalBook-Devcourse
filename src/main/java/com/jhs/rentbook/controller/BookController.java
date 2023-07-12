@@ -4,17 +4,14 @@ import com.jhs.rentbook.controller.dto.IdResponse;
 import com.jhs.rentbook.controller.dto.book.BookInfo;
 import com.jhs.rentbook.controller.dto.book.SaveBookRequest;
 import com.jhs.rentbook.domain.book.Book;
-import com.jhs.rentbook.domain.book.BookType;
 import com.jhs.rentbook.domain.book.vo.BookVo;
 import com.jhs.rentbook.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +19,7 @@ public class BookController {
 
     private final BookService service;
 
+    @ResponseStatus(CREATED)
     @PostMapping("/book")
     public IdResponse saveBook(@RequestBody SaveBookRequest request) {
         Book book = Book.of(request.bookName(), request.bookType());

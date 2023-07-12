@@ -2,7 +2,10 @@ package com.jhs.rentbook.controller;
 
 import com.jhs.rentbook.controller.dto.IdResponse;
 import com.jhs.rentbook.controller.dto.rental.RentalBookInfo;
-import com.jhs.rentbook.controller.dto.user.*;
+import com.jhs.rentbook.controller.dto.user.LoginRequest;
+import com.jhs.rentbook.controller.dto.user.SignUpRequest;
+import com.jhs.rentbook.controller.dto.user.SignUpResponse;
+import com.jhs.rentbook.controller.dto.user.UserInfo;
 import com.jhs.rentbook.domain.rental.UserBookRental;
 import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.domain.user.vo.UserVo;
@@ -11,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +31,7 @@ public class UserController {
                 .toList();
     }
 
+    @ResponseStatus(CREATED)
     @PostMapping("/user/login")
     public IdResponse login(@RequestBody LoginRequest request) {
         UserVo value = userService.login(request.email(), request.password()).values();
@@ -33,6 +39,7 @@ public class UserController {
         return new IdResponse(value.userId());
     }
 
+    @ResponseStatus(CREATED)
     @PostMapping("/user")
     public SignUpResponse signUpUser(@RequestBody SignUpRequest request) {
         User user = User.of(request.email(), request.password(), request.name());
