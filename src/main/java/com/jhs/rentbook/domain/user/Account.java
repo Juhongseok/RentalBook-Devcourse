@@ -1,5 +1,6 @@
 package com.jhs.rentbook.domain.user;
 
+import com.jhs.rentbook.global.exception.NotMatchException;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,13 +30,17 @@ public class Account {
 
     private void validateEmail(String email) {
         if (!Pattern.matches(EMAIL_PATTERN, email)) {
-            throw new IllegalArgumentException("이메일 형식을 맞춰서 작성해 주세요");
+            throw new NotMatchException("이메일 형식을 맞춰서 작성해 주세요");
         }
     }
 
     private void validatePassword(String password) {
         if (!Pattern.matches(PASSWORD_PATTERN, password)) {
-            throw new IllegalArgumentException("비밀번호 형식을 맞춰서 작성해 주세요");
+            throw new NotMatchException("비밀번호 형식을 맞춰서 작성해 주세요");
         }
+    }
+
+    public boolean correctPassword(String password) {
+        return this.password.equals(password);
     }
 }
