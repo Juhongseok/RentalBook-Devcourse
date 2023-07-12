@@ -1,6 +1,7 @@
 package com.jhs.rentbook.domain.rental;
 
 import com.jhs.rentbook.domain.book.Book;
+import com.jhs.rentbook.domain.rental.vo.UserBookRentalVo;
 import com.jhs.rentbook.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,4 +28,8 @@ public class UserBookRental {
     @ManyToOne
     @JoinColumn(name = "BOOK_ID")
     private Book book;
+
+    public UserBookRentalVo values() {
+        return new UserBookRentalVo(id, user.values(), book.values());
+    }
 }
