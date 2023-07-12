@@ -1,6 +1,7 @@
 package com.jhs.rentbook.domain.book;
 
 import com.jhs.rentbook.domain.BaseTimeEntity;
+import com.jhs.rentbook.domain.book.vo.BookVo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,4 +26,12 @@ public class Book extends BaseTimeEntity {
 
     @Enumerated(STRING)
     private RentalStatus rental;
+
+    public BookVo values() {
+        return new BookVo(id, name, type.name(), rental.name());
+    }
+
+    public static Book of(String name, String type) {
+        return new Book(null, name, BookType.valueOf(type), RentalStatus.RETURNED);
+    }
 }
