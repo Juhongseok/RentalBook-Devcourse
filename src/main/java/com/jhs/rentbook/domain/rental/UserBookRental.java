@@ -3,6 +3,7 @@ package com.jhs.rentbook.domain.rental;
 import com.jhs.rentbook.domain.book.Book;
 import com.jhs.rentbook.domain.rental.vo.UserBookRentalVo;
 import com.jhs.rentbook.domain.user.User;
+import com.jhs.rentbook.global.exception.NotMatchException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,5 +32,14 @@ public class UserBookRental {
 
     public UserBookRentalVo values() {
         return new UserBookRentalVo(id, user.values(), book.values());
+    }
+
+    public void checkRentalInfo(Long userId, Long bookId) {
+        Long savedUserId = user.getId();
+        Long savedBookId = book.getId();
+
+        if (!userId.equals(savedUserId) || !bookId.equals(savedBookId)) {
+            throw new NotMatchException("지우고자 하는 이력의 내용가 다른 아이디입니다");
+        }
     }
 }
