@@ -14,7 +14,4 @@ public interface UserBookRentalRepository extends JpaRepository<UserBookRental, 
     @EntityGraph(attributePaths = {"book"})
     List<UserBookRental> findBooksByUserId(Long userId);
 
-    @EntityGraph(attributePaths = {"book"})
-    List<UserBookRental> findAllBooks();
-
 }
