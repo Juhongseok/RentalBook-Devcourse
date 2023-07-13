@@ -1,6 +1,7 @@
 package com.jhs.rentbook.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jhs.rentbook.controller.dto.book.BookInfo;
 import com.jhs.rentbook.controller.dto.book.SaveBookRequest;
 import com.jhs.rentbook.domain.book.Book;
 import com.jhs.rentbook.service.BookService;
@@ -54,15 +55,19 @@ class BookControllerTest {
     @DisplayName("모든 등록된 책 정보 가져오기 api")
     void getAllBookInfo() throws Exception {
         List<Book> books = List.of(
-                new Book(null, "함께 자라기", DEVELOP, RETURNED),
-                new Book(null, "토비의 스프링", DEVELOP, RETURNED)
+                new Book(1L, "함께 자라기", DEVELOP, RETURNED),
+                new Book(2L, "토비의 스프링", DEVELOP, RETURNED)
+        );
+        List<BookInfo> bookInfos = List.of(
+                new BookInfo(1L, "함께 자라기", "DEVELOP", "RETURNED"),
+                new BookInfo(2L, "토비의 스프링", "DEVELOP", "RETURNED")
         );
         given(service.findAll()).willReturn(books);
 
         ResultActions action = mvc.perform(get("/books"));
 
         action.andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(books)))
+                .andExpect(content().json(mapper.writeValueAsString(bookInfos)))
                 .andExpect(jsonPath("$.size()").value(books.size()));
     }
 
