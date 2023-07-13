@@ -2,6 +2,7 @@ package com.jhs.rentbook.service;
 
 import com.jhs.rentbook.domain.user.Account;
 import com.jhs.rentbook.domain.user.User;
+import com.jhs.rentbook.global.exception.custom.BusinessException;
 import com.jhs.rentbook.global.exception.custom.NotMatchException;
 import com.jhs.rentbook.repository.UserBookRentalRepository;
 import com.jhs.rentbook.repository.UserRepository;
@@ -62,6 +63,31 @@ class UserServiceImplTest {
         assertThatThrownBy(() -> userService.login("user1@gmail.com", "Password!"))
                 .isExactlyInstanceOf(NotMatchException.class)
                 .hasMessage("비밀번호가 일치하지 않습니다");
+    }
+
+    @Test
+    @DisplayName("사용자 가입에 성공한다")
+    void successSignUpUser() {
+        User user = new User(0L, "user1", new Account("user1@gmail.com", "Password1!"), USER);
+        User savedUser = new User(1L, "user1", new Account("user1@gmail.com", "Password1!"), USER);
+        given(userRepository.findByAccountEmail("user1@gmail.com")).willReturn(Optional.empty());
+        given(userRepository.save(user)).willReturn(savedUser);
+
+        User signUpUser = userService.saveUser(user);
+
+        assertThat(signUpUser.getId()).isEqualTo(1L);
+        assertThat(signUpUser).isEqualTo(savedUser);
+    }
+
+    @Test
+    @DisplayName("이미 사용중인 이메일로 인한 사용자 가입에 실패한다")
+    void failSignUpUserWithUsedEmail() {
+        User user = new User(0L, "user1", new Account("user1@gmail.com", "Password1!"), USER);
+        given(userRepository.findByAccountEmail("user1@gmail.com")).willReturn(Optional.of(user));
+
+        assertThatThrownBy(() -> userService.saveUser(user))
+                .isExactlyInstanceOf(BusinessException.class)
+                .hasMessage("이미 사용중인 이메일입니다");
     }
 
 }
