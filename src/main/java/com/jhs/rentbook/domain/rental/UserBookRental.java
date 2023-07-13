@@ -6,6 +6,7 @@ import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.global.exception.custom.BusinessException;
 import com.jhs.rentbook.global.exception.custom.NotMatchException;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "USER_BOOKS_RENTAL")
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class UserBookRental {
 
