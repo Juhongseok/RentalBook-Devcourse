@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.CascadeType.REMOVE;
 
 @Entity
 @Table(name = "USER_BOOKS_RENTAL")
@@ -21,11 +20,11 @@ public class UserBookRental {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(cascade = {REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOOK_ID")
     private Book book;
 
