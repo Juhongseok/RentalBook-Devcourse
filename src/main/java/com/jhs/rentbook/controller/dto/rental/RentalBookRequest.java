@@ -1,4 +1,10 @@
 package com.jhs.rentbook.controller.dto.rental;
 
-public record RentalBookRequest(Long userId, Long bookId) {
+import jakarta.validation.constraints.NotNull;
+
+public record RentalBookRequest(
+        @NotNull
+        Long userId,
+        @NotNull
+        Long bookId) {
 }
