@@ -49,6 +49,7 @@ public class BookRentalServiceImpl implements BookRentalService{
 
         UserBookRental userBookRental = userBookRentalRepository.save(new UserBookRental(user, book));
         userBookRental.rentBook();
+
         return userBookRental;
     }
 }
