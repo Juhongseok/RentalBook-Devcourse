@@ -38,4 +38,16 @@ public class Book extends BaseTimeEntity {
     public Long getId() {
         return id;
     }
+
+    public void rent() {
+        this.rental = RentalStatus.RENT;
+    }
+
+    public void returnBook() {
+        this.rental = RentalStatus.RETURNED;
+    }
+
+    public boolean isRenting() {
+        return this.rental.equals(RentalStatus.RENT);
+    }
 }

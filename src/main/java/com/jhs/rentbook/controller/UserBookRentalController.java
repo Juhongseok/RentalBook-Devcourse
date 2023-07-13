@@ -3,7 +3,9 @@ package com.jhs.rentbook.controller;
 import com.jhs.rentbook.controller.dto.IdResponse;
 import com.jhs.rentbook.controller.dto.rental.RentalBook;
 import com.jhs.rentbook.controller.dto.rental.RentalBookInfo;
+import com.jhs.rentbook.controller.dto.rental.RentalBookRequest;
 import com.jhs.rentbook.controller.dto.rental.ReturnBookIds;
+import com.jhs.rentbook.domain.book.vo.BookVo;
 import com.jhs.rentbook.domain.rental.UserBookRental;
 import com.jhs.rentbook.domain.rental.vo.UserBookRentalVo;
 import com.jhs.rentbook.service.BookRentalService;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,5 +55,14 @@ public class UserBookRentalController {
     @DeleteMapping("/rental/{rentalId}")
     public IdResponse returnRentalBook(@PathVariable Long rentalId, @RequestBody @Validated ReturnBookIds returnBookIds) {
         return new IdResponse(service.returnBook(rentalId, returnBookIds));
+    }
+
+    @ResponseStatus(CREATED)
+    @PostMapping("/rental/book")
+    public RentalBookInfo rentBook(@RequestBody @Validated RentalBookRequest request) {
+        UserBookRental rental = service.rentBook(request.userId(), request.bookId());
+        BookVo bookVo = rental.values().bookValue();
+
+        return new RentalBookInfo(bookVo.id(), bookVo.name(), bookVo.type());
     }
 }

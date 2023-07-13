@@ -11,4 +11,5 @@ public interface BookRentalService {
 
     Long returnBook(Long rentalId, ReturnBookIds ids);
 
+    UserBookRental rentBook(Long userId, Long bookId);
 }
