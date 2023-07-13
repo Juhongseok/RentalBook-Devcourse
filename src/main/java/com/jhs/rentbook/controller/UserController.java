@@ -11,6 +11,7 @@ import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.domain.user.vo.UserVo;
 import com.jhs.rentbook.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class UserController {
 
     @ResponseStatus(CREATED)
     @PostMapping("/user/login")
-    public IdResponse login(@RequestBody LoginRequest request) {
+    public IdResponse login(@RequestBody @Validated LoginRequest request) {
         User loginUser = userService.login(request.email(), request.password());
 
         return new IdResponse(loginUser.getId());
@@ -41,7 +42,7 @@ public class UserController {
 
     @ResponseStatus(CREATED)
     @PostMapping("/user")
-    public SignUpResponse signUpUser(@RequestBody SignUpRequest request) {
+    public SignUpResponse signUpUser(@RequestBody @Validated SignUpRequest request) {
         User user = User.of(request.email(), request.password(), request.name());
         UserVo value = userService.saveUser(user).values();
 

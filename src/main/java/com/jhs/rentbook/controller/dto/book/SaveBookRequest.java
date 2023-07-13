@@ -1,4 +1,10 @@
 package com.jhs.rentbook.controller.dto.book;
 
-public record SaveBookRequest(String bookName, String bookType) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record SaveBookRequest(
+        @NotEmpty
+        String bookName,
+        @NotEmpty
+        String bookType) {
 }

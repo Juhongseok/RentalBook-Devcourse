@@ -8,6 +8,7 @@ import com.jhs.rentbook.domain.rental.UserBookRental;
 import com.jhs.rentbook.domain.rental.vo.UserBookRentalVo;
 import com.jhs.rentbook.service.BookRentalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class UserBookRentalController {
     }
 
     @DeleteMapping("/rental/{rentalId}")
-    public IdResponse returnRentalBook(@PathVariable Long rentalId, @RequestBody ReturnBookIds returnBookIds) {
+    public IdResponse returnRentalBook(@PathVariable Long rentalId, @RequestBody @Validated ReturnBookIds returnBookIds) {
         return new IdResponse(service.returnBook(rentalId, returnBookIds));
     }
 }

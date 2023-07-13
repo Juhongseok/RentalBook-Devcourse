@@ -1,4 +1,12 @@
 package com.jhs.rentbook.controller.dto.user;
 
-public record SignUpRequest(String email, String password, String name) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record SignUpRequest(
+        @NotEmpty
+        String email,
+        @NotEmpty
+        String password,
+        @NotEmpty
+        String name) {
 }
