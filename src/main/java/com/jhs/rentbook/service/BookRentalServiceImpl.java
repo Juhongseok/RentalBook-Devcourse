@@ -19,7 +19,7 @@ public class BookRentalServiceImpl implements BookRentalService{
 
     @Override
     public List<UserBookRental> findAllRentalInfo() {
-        return userBookRentalRepository.findAllInfo();
+        return userBookRentalRepository.findAll();
     }
 
     @Override

@@ -35,7 +35,7 @@ class UserServiceImplTest {
     @DisplayName("로그인에 성공한다")
     void successLogin() {
         User user = new User(1L, "user1", new Account("user1@gmail.com", "Password1!"), USER);
-        given(userRepository.findByEmail("user1@gmail.com")).willReturn(Optional.of(user));
+        given(userRepository.findByAccountEmail("user1@gmail.com")).willReturn(Optional.of(user));
 
         User loginUser = userService.login("user1@gmail.com", "Password1!");
 
@@ -46,7 +46,7 @@ class UserServiceImplTest {
     @Test
     @DisplayName("이메일이 일치하지 않아 로그인에 실패한다")
     void failLoginWithWrongEmail() {
-        given(userRepository.findByEmail("wrongEmail")).willReturn(Optional.empty());
+        given(userRepository.findByAccountEmail("wrongEmail")).willReturn(Optional.empty());
 
         assertThatThrownBy(() -> userService.login("wrongEmail", "password"))
                 .isExactlyInstanceOf(NotMatchException.class)
@@ -57,7 +57,7 @@ class UserServiceImplTest {
     @DisplayName("비밀번호가 일치하지 않아 로그인에 실패한다")
     void failLoginWithWrongPassword() {
         User user = new User(1L, "user1", new Account("user1@gmail.com", "Password1!"), USER);
-        given(userRepository.findByEmail("user1@gmail.com")).willReturn(Optional.of(user));
+        given(userRepository.findByAccountEmail("user1@gmail.com")).willReturn(Optional.of(user));
 
         assertThatThrownBy(() -> userService.login("user1@gmail.com", "Password!"))
                 .isExactlyInstanceOf(NotMatchException.class)

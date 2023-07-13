@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User login(String email, String password) {
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findByAccountEmail(email)
                 .orElseThrow(() -> new NotMatchException("존재하지 않은 이메일입니다"));
 
         user.checkPassword(password);

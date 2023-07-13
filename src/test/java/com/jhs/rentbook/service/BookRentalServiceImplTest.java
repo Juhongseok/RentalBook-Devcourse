@@ -51,7 +51,7 @@ class BookRentalServiceImplTest {
         given(userBookRentalRepository.findById(1L)).willReturn(Optional.of(rental));
 
         ReturnBookIds ids = new ReturnBookIds(1L, 2L);
-        
+
         assertThatThrownBy(() -> bookRentalService.returnBook(1L, ids))
                 .isExactlyInstanceOf(NotMatchException.class)
                 .hasMessage("지우고자 하는 이력의 내용가 다른 아이디입니다");

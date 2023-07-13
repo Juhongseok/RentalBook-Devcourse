@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserBookRentalRepository extends JpaRepository<UserBookRental, Long> {
 
     @EntityGraph(attributePaths = {"user", "book"})
-    List<UserBookRental> findAllInfo();
+    List<UserBookRental> findAll();
 
     @EntityGraph(attributePaths = {"book"})
     List<UserBookRental> findBooksByUserId(Long userId);
