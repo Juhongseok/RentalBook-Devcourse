@@ -1,6 +1,6 @@
 package com.jhs.rentbook.domain.user;
 
-import com.jhs.rentbook.global.exception.NotMatchException;
+import com.jhs.rentbook.global.exception.custom.NotMatchException;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

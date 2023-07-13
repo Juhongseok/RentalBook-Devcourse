@@ -1,7 +1,7 @@
 package com.jhs.rentbook.service;
 
 import com.jhs.rentbook.domain.book.Book;
-import com.jhs.rentbook.global.exception.EntityNotFoundException;
+import com.jhs.rentbook.global.exception.custom.EntityNotFoundException;
 import com.jhs.rentbook.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

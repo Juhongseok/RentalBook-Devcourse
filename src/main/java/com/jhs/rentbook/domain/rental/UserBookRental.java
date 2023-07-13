@@ -3,7 +3,7 @@ package com.jhs.rentbook.domain.rental;
 import com.jhs.rentbook.domain.book.Book;
 import com.jhs.rentbook.domain.rental.vo.UserBookRentalVo;
 import com.jhs.rentbook.domain.user.User;
-import com.jhs.rentbook.global.exception.NotMatchException;
+import com.jhs.rentbook.global.exception.custom.NotMatchException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

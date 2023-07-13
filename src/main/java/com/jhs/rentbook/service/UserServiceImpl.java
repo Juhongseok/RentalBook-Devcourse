@@ -2,7 +2,7 @@ package com.jhs.rentbook.service;
 
 import com.jhs.rentbook.domain.rental.UserBookRental;
 import com.jhs.rentbook.domain.user.User;
-import com.jhs.rentbook.global.exception.NotMatchException;
+import com.jhs.rentbook.global.exception.custom.NotMatchException;
 import com.jhs.rentbook.repository.UserBookRentalRepository;
 import com.jhs.rentbook.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

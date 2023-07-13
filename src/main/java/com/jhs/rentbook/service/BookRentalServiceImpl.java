@@ -2,7 +2,7 @@ package com.jhs.rentbook.service;
 
 import com.jhs.rentbook.controller.dto.rental.ReturnBookIds;
 import com.jhs.rentbook.domain.rental.UserBookRental;
-import com.jhs.rentbook.global.exception.EntityNotFoundException;
+import com.jhs.rentbook.global.exception.custom.EntityNotFoundException;
 import com.jhs.rentbook.repository.UserBookRentalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
