@@ -2,12 +2,16 @@ package com.jhs.rentbook.domain.book;
 
 import com.jhs.rentbook.domain.BaseTimeEntity;
 import com.jhs.rentbook.domain.book.vo.BookVo;
+import com.jhs.rentbook.global.exception.custom.NotMatchException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
+
 import static jakarta.persistence.EnumType.STRING;
+import static java.util.stream.Collectors.joining;
 
 @Entity
 @Table(name = "BOOKS")
@@ -32,7 +36,23 @@ public class Book extends BaseTimeEntity {
     }
 
     public static Book of(String name, String type) {
-        return new Book(null, name, BookType.valueOf(type), RentalStatus.RETURNED);
+        BookType bookType = retrieveBookType(type);
+
+        return new Book(null, name, bookType, RentalStatus.RETURNED);
+    }
+
+    private static BookType retrieveBookType(String type) {
+        try {
+            return BookType.valueOf(type);
+        } catch (IllegalArgumentException exception) {
+            String typeList = Arrays.stream(BookType.values())
+                    .map(BookType::name)
+                    .collect(joining(", "));
+
+            String message = "일치하는 책의 타입이 없습니다. 다음 타입 중 하나를 골라주세요 (" + typeList + ")";
+
+            throw new NotMatchException(message);
+        }
     }
 
     public Long getId() {
