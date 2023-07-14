@@ -12,7 +12,12 @@ public class AuthenticationStorage {
     }
 
     public StorageField get() {
-        return storage.get();
+        StorageField field = storage.get();
+        if (field == null) {
+            return new StorageField(null, "NO_ROLE");
+        }
+
+        return field;
     }
 
     public record StorageField(Long userId, String role) {
