@@ -1,17 +1,12 @@
-package com.jhs.rentbook.global.filter.matcher;
+package com.jhs.rentbook.global.filter.matcher.authorization;
 
 import com.jhs.rentbook.global.filter.AuthenticationStorage.StorageField;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpMethod;
 
-public class UserIdDynamicRequestMatcher extends RequestMatcher{
-
-    public UserIdDynamicRequestMatcher(HttpMethod httpMethod, String uri) {
-        super(httpMethod, uri);
-    }
+public class UserIdAuthorizationMatcher implements AuthorizationMatcher{
 
     @Override
-    public boolean isMatch(HttpServletRequest request, StorageField field) {
+    public boolean isGrant(HttpServletRequest request, StorageField field) {
         Long userId = field.userId();
         String uri = request.getRequestURI();
 
@@ -24,6 +19,6 @@ public class UserIdDynamicRequestMatcher extends RequestMatcher{
             }
         }
 
-        return super.isMatch(request, field) && isMatchId;
+        return isMatchId && field.role().equals("USER");
     }
 }

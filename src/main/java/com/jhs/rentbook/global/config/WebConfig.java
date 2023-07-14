@@ -5,6 +5,7 @@ import com.jhs.rentbook.global.filter.AuthenticationFilter;
 import com.jhs.rentbook.global.filter.AuthenticationStorage;
 import com.jhs.rentbook.global.filter.AuthorizationFilter;
 import com.jhs.rentbook.global.filter.ExceptionHandlerFilter;
+import com.jhs.rentbook.global.filter.matcher.AuthorizationManager;
 import com.jhs.rentbook.repository.UserRepository;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -37,10 +38,10 @@ public class WebConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<Filter> authorizationFilter(AuthenticationStorage storage) {
+    public FilterRegistrationBean<Filter> authorizationFilter(AuthenticationStorage storage, AuthorizationManager manager) {
         FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
 
-        registration.setFilter(new AuthorizationFilter(storage));
+        registration.setFilter(new AuthorizationFilter(storage, manager));
         registration.setOrder(3);
         registration.addUrlPatterns("/*");
 
