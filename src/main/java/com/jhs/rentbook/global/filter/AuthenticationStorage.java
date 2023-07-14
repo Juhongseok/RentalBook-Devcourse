@@ -5,18 +5,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationStorage {
 
-    private ThreadLocal<String> storage = new ThreadLocal<>();
+    private ThreadLocal<StorageField> storage = new ThreadLocal<>();
 
-    public void put(String role) {
-        storage.set(role);
+    public void put(StorageField field) {
+        storage.set(field);
     }
 
-    public String get() {
-        String role = storage.get();
-        if (role == null) {
-            return "NO_ROLE";
-        }
+    public StorageField get() {
+        return storage.get();
+    }
 
-        return role;
+    public record StorageField(Long userId, String role) {
     }
 }

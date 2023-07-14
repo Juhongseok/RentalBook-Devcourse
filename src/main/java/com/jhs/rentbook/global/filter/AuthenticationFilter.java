@@ -2,6 +2,7 @@ package com.jhs.rentbook.global.filter;
 
 import com.jhs.rentbook.domain.user.vo.UserVo;
 import com.jhs.rentbook.global.exception.custom.EntityNotFoundException;
+import com.jhs.rentbook.global.filter.AuthenticationStorage.StorageField;
 import com.jhs.rentbook.repository.UserRepository;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ public class AuthenticationFilter implements Filter {
                     .values();
 
             String role = values.role();
-            storage.put(role);
+            storage.put(new StorageField(values.userId(), role));
         }
 
         chain.doFilter(request, response);

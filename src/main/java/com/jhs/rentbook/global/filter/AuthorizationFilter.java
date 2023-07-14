@@ -1,6 +1,8 @@
 package com.jhs.rentbook.global.filter;
 
 import com.jhs.rentbook.global.exception.custom.filter.AuthorizationException;
+import com.jhs.rentbook.global.filter.AuthenticationStorage.StorageField;
+import com.jhs.rentbook.global.filter.matcher.UserIdDynamicRequestMatcher;
 import com.jhs.rentbook.global.filter.matcher.RequestMatcher;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,25 +33,23 @@ public class AuthorizationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String role = storage.get();
+        StorageField field = storage.get();
         HttpServletRequest request = (HttpServletRequest) req;
 
-        if (canNotAccess(role, request)) {
+        if (canNotAccess(field, request)) {
             throw new AuthorizationException("Has No Access Authorize");
         }
 
         chain.doFilter(req, response);
     }
 
-    private boolean canNotAccess(String role, HttpServletRequest request) {
+    private boolean canNotAccess(StorageField field, HttpServletRequest request) {
+        String role = field == null ? NO_ROLE : field.role();
         List<RequestMatcher> requestMatchers = accessRequestMatchers(role);
-
-        String uri = request.getRequestURI();
-        String method = request.getMethod();
 
         boolean result = false;
         for (RequestMatcher requestMatcher : requestMatchers) {
-            result = requestMatcher.isMatch(method, uri);
+            result = requestMatcher.isMatch(request, field);
 
             if (result) {
                 break;

@@ -1,5 +1,7 @@
 package com.jhs.rentbook.global.filter.matcher;
 
+import com.jhs.rentbook.global.filter.AuthenticationStorage.StorageField;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpMethod;
 
 import java.util.regex.Pattern;
@@ -17,9 +19,9 @@ public class RequestMatcher {
         return Pattern.compile(uri.replace("*", ".*[^/]").concat("$"));
     }
 
-    public boolean isMatch(String httpMethod, String uri) {
-        boolean matchHttpMethod = this.httpMethod == null || this.httpMethod.equals(httpMethod);
-        boolean matchUri = this.uriPattern.matcher(uri).matches();
+    public boolean isMatch(HttpServletRequest request, StorageField field) {
+        boolean matchHttpMethod = this.httpMethod == null || this.httpMethod.equals(request.getMethod());
+        boolean matchUri = this.uriPattern.matcher(request.getRequestURI()).matches();
 
         return matchHttpMethod && matchUri;
     }
