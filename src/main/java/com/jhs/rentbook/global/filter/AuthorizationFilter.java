@@ -1,7 +1,8 @@
 package com.jhs.rentbook.global.filter;
 
 import com.jhs.rentbook.global.exception.custom.filter.AuthorizationException;
-import com.jhs.rentbook.global.filter.AuthenticationStorage.StorageField;
+import com.jhs.rentbook.global.filter.matcher.AuthenticationStorage;
+import com.jhs.rentbook.global.filter.matcher.AuthenticationStorage.StorageField;
 import com.jhs.rentbook.global.filter.matcher.AuthorizationManager;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

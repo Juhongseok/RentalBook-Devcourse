@@ -1,6 +1,6 @@
 package com.jhs.rentbook.global.filter.matcher;
 
-import com.jhs.rentbook.global.filter.AuthenticationStorage.StorageField;
+import com.jhs.rentbook.global.filter.matcher.AuthenticationStorage.StorageField;
 import com.jhs.rentbook.global.filter.matcher.authorization.AuthorizationMatcher;
 import com.jhs.rentbook.global.filter.matcher.request.RequestMatcher;
 import com.jhs.rentbook.global.filter.matcher.request.RequestMatcherRegistry;

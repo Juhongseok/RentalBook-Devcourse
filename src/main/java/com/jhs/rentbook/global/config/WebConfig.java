@@ -2,7 +2,7 @@ package com.jhs.rentbook.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhs.rentbook.global.filter.AuthenticationFilter;
-import com.jhs.rentbook.global.filter.AuthenticationStorage;
+import com.jhs.rentbook.global.filter.matcher.AuthenticationStorage;
 import com.jhs.rentbook.global.filter.AuthorizationFilter;
 import com.jhs.rentbook.global.filter.ExceptionHandlerFilter;
 import com.jhs.rentbook.global.filter.matcher.AuthorizationManager;

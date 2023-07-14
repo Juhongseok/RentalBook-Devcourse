@@ -2,7 +2,8 @@ package com.jhs.rentbook.global.filter;
 
 import com.jhs.rentbook.domain.user.vo.UserVo;
 import com.jhs.rentbook.global.exception.custom.EntityNotFoundException;
-import com.jhs.rentbook.global.filter.AuthenticationStorage.StorageField;
+import com.jhs.rentbook.global.filter.matcher.AuthenticationStorage;
+import com.jhs.rentbook.global.filter.matcher.AuthenticationStorage.StorageField;
 import com.jhs.rentbook.repository.UserRepository;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

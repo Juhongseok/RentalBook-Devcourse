@@ -1,4 +1,4 @@
-package com.jhs.rentbook.global.filter;
+package com.jhs.rentbook.global.filter.matcher;
 
 import org.springframework.stereotype.Component;
 
