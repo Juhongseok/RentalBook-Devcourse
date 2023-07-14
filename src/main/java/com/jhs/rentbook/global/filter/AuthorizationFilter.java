@@ -25,7 +25,7 @@ public class AuthorizationFilter implements Filter {
 
     private final Map<String, List<RequestMatcher>> accessUris = Map.of(
             "USER", List.of(new RequestMatcher(GET, "/books"), new RequestMatcher(DELETE, "/rental/*"), new RequestMatcher(POST, "/rental/book"),
-                    new RequestMatcher(GET, "/user/*/rental")),
+                    new UserIdDynamicRequestMatcher(GET, "/user/*/rental")),
             "MANAGER", List.of(new RequestMatcher(POST, "/book"), new RequestMatcher(GET, "/rental/books"), new RequestMatcher(GET, "/users")
                     , new RequestMatcher(GET, "/books")),
             NO_ROLE, List.of(new RequestMatcher(POST, "/user/login"), new RequestMatcher(POST, "/user"))
