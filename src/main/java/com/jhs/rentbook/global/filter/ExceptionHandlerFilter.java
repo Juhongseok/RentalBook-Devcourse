@@ -6,6 +6,7 @@ import com.jhs.rentbook.global.exception.custom.BusinessException;
 import com.jhs.rentbook.global.exception.custom.filter.AuthorizationException;
 import jakarta.servlet.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 
@@ -20,19 +21,21 @@ public class ExceptionHandlerFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String responseMessage = "";
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType(APPLICATION_JSON_VALUE);
         try {
             chain.doFilter(request, response);
         } catch (BusinessException exception) {
-            ExceptionResponse value = new ExceptionResponse(BAD_REQUEST.value(), exception.getMessage());
-            responseMessage = mapper.writeValueAsString(value);
+            responseException(BAD_REQUEST, exception.getMessage(), response);
         } catch (AuthorizationException exception) {
-            ExceptionResponse exceptionResponse = new ExceptionResponse(FORBIDDEN.value(), exception.getMessage());
-            responseMessage = mapper.writeValueAsString(exceptionResponse);
+            responseException(FORBIDDEN, exception.getMessage(), response);
         }
+    }
 
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType(APPLICATION_JSON_VALUE);
-        response.getWriter().println(responseMessage);
+    private void responseException(HttpStatus status, String message, ServletResponse response) throws IOException {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(status.value(), message);
+        String responseMessage = mapper.writeValueAsString(exceptionResponse);
+
+        response.getWriter().write(responseMessage);
     }
 }
