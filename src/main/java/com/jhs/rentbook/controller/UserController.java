@@ -52,8 +52,8 @@ public class UserController {
     @GetMapping("/user/{userId}/rental")
     public List<RentalBookInfo> getOwnRentalBooks(@PathVariable Long userId) {
         return userService.getRentalBookList(userId).stream()
-                .map(UserBookRental::values)
-                .map(value -> new RentalBookInfo(value.bookValue().id(), value.bookValue().name(), value.bookValue().type()))
+                .map(UserBookRental::getBookValue)
+                .map(value -> new RentalBookInfo(value.id(), value.name(), value.type()))
                 .toList();
     }
 }

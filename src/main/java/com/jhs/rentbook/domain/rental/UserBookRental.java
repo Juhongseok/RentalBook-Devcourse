@@ -1,6 +1,7 @@
 package com.jhs.rentbook.domain.rental;
 
 import com.jhs.rentbook.domain.book.Book;
+import com.jhs.rentbook.domain.book.vo.BookVo;
 import com.jhs.rentbook.domain.rental.vo.UserBookRentalVo;
 import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.global.exception.custom.BusinessException;
@@ -33,6 +34,10 @@ public class UserBookRental {
     public UserBookRental(User user, Book book) {
         this.user = user;
         this.book = book;
+    }
+
+    public BookVo getBookValue() {
+        return book.values();
     }
 
     public UserBookRentalVo values() {
