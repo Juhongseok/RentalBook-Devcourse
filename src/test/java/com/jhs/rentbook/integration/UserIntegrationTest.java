@@ -7,9 +7,12 @@ import com.jhs.rentbook.controller.dto.user.SignUpResponse;
 import com.jhs.rentbook.controller.dto.user.UserInfo;
 import com.jhs.rentbook.global.exception.ExceptionResponse;
 import com.jhs.rentbook.integration.base.AbstractIntegrationTest;
+import com.jhs.rentbook.repository.UserRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,10 +24,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 class UserIntegrationTest extends AbstractIntegrationTest {
-
-    private static final String MANAGER_NUMBER = "1";
-    public static final String NO_AUTHORIZATION_NUMBER = "1000";
-    private static final String HEADER_NAME = "LOGIN-ID";
 
     @Test
     @Order(1)
@@ -39,8 +38,7 @@ class UserIntegrationTest extends AbstractIntegrationTest {
     @Order(2)
     @DisplayName("Load All Users")
     void loadAllUsers() {
-        HttpHeaders headers = setLoginIdHeader(MANAGER_NUMBER);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        HttpEntity<Object> entity = convertHttpEntity(null, "1");
 
         ResponseEntity<List> responseEntity = restTemplate.exchange(baseUrl + "/users", HttpMethod.GET, entity, List.class);
         List<UserInfo> response = responseEntity.getBody();
@@ -51,8 +49,7 @@ class UserIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DisplayName("Fail Load All Users Has no UserId in Repository")
     void failLoadAllUsers() {
-        HttpHeaders headers = setLoginIdHeader(NO_AUTHORIZATION_NUMBER);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        HttpEntity<Object> entity = convertHttpEntity(null, "1000");
 
         ResponseEntity<ExceptionResponse> responseEntity = restTemplate.exchange(baseUrl + "/users", HttpMethod.GET, entity, ExceptionResponse.class);
         ExceptionResponse response = responseEntity.getBody();
@@ -63,8 +60,7 @@ class UserIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DisplayName("Fail Load All Users Has no Authorization")
     void failLoadAllUsersHasNoAuthorization() {
-        HttpHeaders headers = setLoginIdHeader("2");
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        HttpEntity<Object> entity = convertHttpEntity(null, "2");
 
         ResponseEntity<ExceptionResponse> responseEntity = restTemplate.exchange(baseUrl + "/users", HttpMethod.GET, entity, ExceptionResponse.class);
         ExceptionResponse response = responseEntity.getBody();
@@ -111,13 +107,6 @@ class UserIntegrationTest extends AbstractIntegrationTest {
         return restTemplate
                 .postForEntity(requestUrl, request, SignUpResponse.class)
                 .getBody();
-    }
-
-    private static HttpHeaders setLoginIdHeader(String number) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HEADER_NAME, number);
-
-        return headers;
     }
 
 }
