@@ -31,7 +31,8 @@ public class ExceptionHandlerFilter implements Filter {
             responseMessage = mapper.writeValueAsString(exceptionResponse);
         }
 
+        response.setCharacterEncoding("UTF-8");
         response.setContentType(APPLICATION_JSON_VALUE);
-        response.getOutputStream().println(responseMessage);
+        response.getWriter().println(responseMessage);
     }
 }
