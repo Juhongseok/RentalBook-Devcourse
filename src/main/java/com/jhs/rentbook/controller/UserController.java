@@ -1,12 +1,10 @@
 package com.jhs.rentbook.controller;
 
 import com.jhs.rentbook.controller.dto.IdResponse;
-import com.jhs.rentbook.controller.dto.rental.RentalBookInfo;
 import com.jhs.rentbook.controller.dto.user.LoginRequest;
 import com.jhs.rentbook.controller.dto.user.SignUpRequest;
 import com.jhs.rentbook.controller.dto.user.SignUpResponse;
 import com.jhs.rentbook.controller.dto.user.UserInfo;
-import com.jhs.rentbook.domain.rental.UserBookRental;
 import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.domain.user.vo.UserVo;
 import com.jhs.rentbook.service.UserService;
@@ -49,11 +47,4 @@ public class UserController {
         return new SignUpResponse(value.userId(), value.email());
     }
 
-    @GetMapping("/user/{userId}/rental")
-    public List<RentalBookInfo> getOwnRentalBooks(@PathVariable Long userId) {
-        return userService.getRentalBookList(userId).stream()
-                .map(UserBookRental::getBookValue)
-                .map(value -> new RentalBookInfo(value.id(), value.name(), value.type()))
-                .toList();
-    }
 }

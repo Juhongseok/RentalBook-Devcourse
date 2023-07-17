@@ -1,10 +1,8 @@
 package com.jhs.rentbook.service;
 
-import com.jhs.rentbook.domain.rental.UserBookRental;
 import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.global.exception.custom.BusinessException;
 import com.jhs.rentbook.global.exception.custom.NotMatchException;
-import com.jhs.rentbook.repository.UserBookRentalRepository;
 import com.jhs.rentbook.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final UserBookRentalRepository userBookRentalRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -50,11 +47,5 @@ public class UserServiceImpl implements UserService{
         if (findUser.isPresent()) {
             throw new BusinessException("이미 사용중인 이메일입니다");
         }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserBookRental> getRentalBookList(Long userId) {
-        return userBookRentalRepository.findBooksByUserId(userId);
     }
 }
