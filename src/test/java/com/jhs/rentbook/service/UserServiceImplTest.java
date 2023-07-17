@@ -4,7 +4,6 @@ import com.jhs.rentbook.domain.user.Account;
 import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.global.exception.custom.BusinessException;
 import com.jhs.rentbook.global.exception.custom.NotMatchException;
-import com.jhs.rentbook.repository.UserBookRentalRepository;
 import com.jhs.rentbook.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,9 +24,6 @@ class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
-
-    @Mock
-    private UserBookRentalRepository userBookRentalRepository;
 
     @InjectMocks
     private UserServiceImpl userService;

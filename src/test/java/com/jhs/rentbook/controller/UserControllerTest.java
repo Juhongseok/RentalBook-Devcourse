@@ -2,15 +2,10 @@ package com.jhs.rentbook.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhs.rentbook.controller.dto.IdResponse;
-import com.jhs.rentbook.controller.dto.rental.RentalBookInfo;
 import com.jhs.rentbook.controller.dto.user.LoginRequest;
 import com.jhs.rentbook.controller.dto.user.SignUpRequest;
 import com.jhs.rentbook.controller.dto.user.SignUpResponse;
 import com.jhs.rentbook.controller.dto.user.UserInfo;
-import com.jhs.rentbook.domain.book.Book;
-import com.jhs.rentbook.domain.book.BookType;
-import com.jhs.rentbook.domain.book.RentalStatus;
-import com.jhs.rentbook.domain.rental.UserBookRental;
 import com.jhs.rentbook.domain.user.Account;
 import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.service.UserService;
@@ -24,8 +19,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static com.jhs.rentbook.domain.book.BookType.DEVELOP;
-import static com.jhs.rentbook.domain.book.RentalStatus.RETURNED;
 import static com.jhs.rentbook.domain.user.Role.USER;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -94,26 +87,6 @@ class UserControllerTest {
 
         action.andExpect(status().isCreated())
                 .andExpect(content().json(mapper.writeValueAsString(new SignUpResponse(1L, "user1@gmail.com"))));
-    }
-
-    @Test
-    @DisplayName("사용자 대여 책 목록 검색 api")
-    void getUserRentalBooks() throws Exception {
-        List<UserBookRental> userBookRentals = List.of(
-                new UserBookRental(1L,
-                        new User(1L, "user1", new Account("user1@gmail.com", "Password1!"), USER),
-                        new Book(1L, "함께 자라기", DEVELOP, RETURNED)
-                )
-        );
-        List<RentalBookInfo> response = List.of(
-                new RentalBookInfo(1L, "함께 자라기", "DEVELOP")
-        );
-        given(service.getRentalBookList(1L)).willReturn(userBookRentals);
-
-        ResultActions action = mvc.perform(get("/user/{userId}/rental", 1L));
-
-        action.andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(response)));
     }
 
 }
