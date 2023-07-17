@@ -47,6 +47,7 @@ class UserIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("Fail Load All Users Has no UserId in Repository")
     void failLoadAllUsers() {
         HttpEntity<Object> entity = convertHttpEntity(null, "1000");
@@ -58,6 +59,7 @@ class UserIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("Fail Load All Users Has no Authorization")
     void failLoadAllUsersHasNoAuthorization() {
         HttpEntity<Object> entity = convertHttpEntity(null, "2");
@@ -69,7 +71,7 @@ class UserIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(3)
+    @Order(5)
     @DisplayName("Success Login")
     void loginSuccess() {
         IdResponse idResponse = restTemplate.postForObject(baseUrl + "/user/login", new LoginRequest("user0@gmail.com", "Password0!"), IdResponse.class);
@@ -78,7 +80,7 @@ class UserIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(6)
     @DisplayName("Fail Login With Wrong Info")
     void loginFail() {
         ExceptionResponse exceptionResponse = restTemplate.postForObject(baseUrl + "/user/login", new LoginRequest("wrong", "wrong"), ExceptionResponse.class);
