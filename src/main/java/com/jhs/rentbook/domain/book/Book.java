@@ -2,21 +2,22 @@ package com.jhs.rentbook.domain.book;
 
 import com.jhs.rentbook.domain.BaseTimeEntity;
 import com.jhs.rentbook.domain.book.vo.BookVo;
+import com.jhs.rentbook.domain.rental.UserBookRental;
+import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.global.exception.custom.NotMatchException;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 
+import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.EnumType.STRING;
 import static java.util.stream.Collectors.joining;
 
 @Entity
 @Table(name = "BOOKS")
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
 public class Book extends BaseTimeEntity {
 
@@ -31,8 +32,18 @@ public class Book extends BaseTimeEntity {
     @Enumerated(STRING)
     private RentalStatus rental;
 
-    public BookVo values() {
-        return new BookVo(id, name, type.name(), rental.name());
+    @OneToOne(mappedBy = "book", cascade = PERSIST, orphanRemoval = true)
+    private UserBookRental rentalInfo;
+
+    public Book(Long id, String name, BookType type, RentalStatus rental) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.rental = rental;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public static Book of(String name, String type) {
@@ -55,19 +66,24 @@ public class Book extends BaseTimeEntity {
         }
     }
 
-    public Long getId() {
-        return id;
+    public BookVo values() {
+        return new BookVo(id, name, type.name(), rental.name());
     }
 
-    public void rent() {
+    public Book rent(User user) {
+        this.rentalInfo = new UserBookRental(user, this);
         this.rental = RentalStatus.RENT;
+
+        return this;
     }
 
-    public void returnBook() {
+    public void returnBook(Long rentalId) {
         this.rental = RentalStatus.RETURNED;
+        rentalInfo.returnBook(rentalId);
+        rentalInfo = null;
     }
 
-    public boolean isRenting() {
-        return this.rental.equals(RentalStatus.RENT);
+    public UserBookRental rentals() {
+        return this.rentalInfo;
     }
 }
