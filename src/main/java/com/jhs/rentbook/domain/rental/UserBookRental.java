@@ -1,7 +1,6 @@
 package com.jhs.rentbook.domain.rental;
 
 import com.jhs.rentbook.domain.book.Book;
-import com.jhs.rentbook.domain.book.vo.BookVo;
 import com.jhs.rentbook.domain.rental.vo.UserBookRentalVo;
 import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.global.exception.custom.NotMatchException;
@@ -35,16 +34,8 @@ public class UserBookRental {
         this.book = book;
     }
 
-    public BookVo getBookValue() {
-        return book.values();
-    }
-
     public UserBookRentalVo values() {
         return new UserBookRentalVo(id, user.values(), book.values());
-    }
-
-    public boolean checkUserId(Long userId) {
-        return userId.equals(user.getId());
     }
 
     public void returnBook(Long rentalId) {
