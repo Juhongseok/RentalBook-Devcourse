@@ -9,6 +9,7 @@ import com.jhs.rentbook.domain.book.Book;
 import com.jhs.rentbook.domain.book.vo.BookVo;
 import com.jhs.rentbook.domain.rental.UserBookRental;
 import com.jhs.rentbook.domain.rental.vo.UserBookRentalVo;
+import com.jhs.rentbook.domain.user.vo.UserVo;
 import com.jhs.rentbook.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -46,11 +47,11 @@ public class BookController {
     }
 
     @PostMapping("/book/{bookId}/rental")
-    public RentalBookInfo rentBook(@PathVariable Long bookId, @RequestParam Long userId) {
+    public IdResponse rentBook(@PathVariable Long bookId, @RequestParam Long userId) {
         Book rentalBook = service.rentBook(userId, bookId);
         BookVo bookVo = rentalBook.values();
 
-        return new RentalBookInfo(bookVo.id(), bookVo.name(), bookVo.type());
+        return new IdResponse(bookVo.id());
     }
 
     @DeleteMapping("/book/{bookId}/rental/user/{userId}")
@@ -61,35 +62,35 @@ public class BookController {
     @GetMapping("/book/rental/user/{userId}")
     public List<RentalBookInfo> getOwnRentalBooks(@PathVariable Long userId) {
         return service.findAllRentalInfoByUserId(userId).stream()
-                .map(UserBookRental::getBookValue)
-                .map(value -> new RentalBookInfo(value.id(), value.name(), value.type()))
+                .map(UserBookRental::values)
+                .map(value -> new RentalBookInfo(value.rentalId(), value.bookValue().id(), value.bookValue().name(), value.bookValue().type()))
                 .toList();
     }
 
     @GetMapping("/book/rental/users")
     public List<RentalBook> getAllRentalBooks() {
-        List<UserBookRental> rentals = service.findAllRentalInfo();
-        Map<Long, List<RentalBookInfo>> map = rentalBookGroupByUserId(rentals);
-
-        return rentals.stream()
+        List<UserBookRentalVo> values = service.findAllRentalInfo().stream()
                 .map(UserBookRental::values)
-                .map(value -> new RentalBook(value.userValue().userId(), value.userValue().username(), map.get(value.userValue().userId())))
                 .toList();
+
+        return convertToRentalBooks(values);
     }
 
-    private Map<Long, List<RentalBookInfo>> rentalBookGroupByUserId(List<UserBookRental> rentals) {
-        Map<Long, List<RentalBookInfo>> map = new HashMap<>();
+    private List<RentalBook> convertToRentalBooks(List<UserBookRentalVo> values) {
+        Map<Long, RentalBook> rentalBookMap = new HashMap<>();
 
-        for (UserBookRental rental : rentals) {
-            UserBookRentalVo value = rental.values();
+        for (UserBookRentalVo value : values) {
+            UserVo userVo = value.userValue();
+            BookVo bookVo = value.bookValue();
 
-            Long userId = value.userValue().userId();
-            List<RentalBookInfo> list = map.getOrDefault(userId, new ArrayList<>());
-            list.add(new RentalBookInfo(value.bookValue().id(), value.bookValue().name(), value.bookValue().type()));
-            map.put(userId, list);
+            RentalBook rentalBook = rentalBookMap.getOrDefault(userVo.userId(), new RentalBook(userVo.userId(), userVo.username(), new ArrayList<>()));
+
+            RentalBookInfo rentalBookInfo = new RentalBookInfo(value.rentalId(), bookVo.id(), bookVo.name(), bookVo.type());
+            rentalBook.rentalList().add(rentalBookInfo);
+
+            rentalBookMap.put(userVo.userId(), rentalBook);
         }
 
-        return map;
+        return new ArrayList<>(rentalBookMap.values());
     }
-
 }

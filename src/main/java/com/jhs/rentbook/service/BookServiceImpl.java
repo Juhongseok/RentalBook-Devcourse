@@ -46,9 +46,8 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<UserBookRental> findAllRentalInfoByUserId(Long userId) {
-        return bookRepository.findAll().stream()
+        return bookRepository.findAllByUserId(userId).stream()
                 .map(Book::rentals)
-                .filter(userBookRental -> userBookRental.checkUserId(userId))
                 .toList();
     }
 
