@@ -2,6 +2,7 @@ package com.jhs.rentbook.service;
 
 import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.global.exception.custom.BusinessException;
+import com.jhs.rentbook.global.exception.custom.EntityNotFoundException;
 import com.jhs.rentbook.global.exception.custom.NotMatchException;
 import com.jhs.rentbook.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User login(String email, String password) {
         User user = userRepository.findByAccountEmail(email)
-                .orElseThrow(() -> new NotMatchException("존재하지 않은 이메일입니다"));
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않은 이메일입니다"));
 
         user.checkPassword(password);
 
