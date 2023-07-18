@@ -12,6 +12,6 @@ public class RoleAuthorizationMatcher implements AuthorizationMatcher{
     }
 
     public boolean isGrant(HttpServletRequest request, StorageField field) {
-        return field.role().equals(role);
+        return field.role().equals(role) || role.equals("NO_ROLE");
     }
 }

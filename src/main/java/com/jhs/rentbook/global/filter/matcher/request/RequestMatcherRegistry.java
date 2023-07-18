@@ -16,10 +16,10 @@ import static org.springframework.http.HttpMethod.*;
 public class RequestMatcherRegistry {
 
     private final Map<String, List<RequestMatcher>> accessUris = Map.of(
-            "USER", List.of(new RequestMatcher(GET, "/books"), new RequestMatcher(POST, "/book/*/rental")),
+            "USER", List.of(new RequestMatcher(POST, "/book/*/rental")),
             "MANAGER", List.of(new RequestMatcher(POST, "/book"), new RequestMatcher(GET, "/users")
-                    , new RequestMatcher(GET, "/books"), new RequestMatcher(GET, "/book/rental/users")),
-            "NO_ROLE", List.of(new RequestMatcher(POST, "/user/login"), new RequestMatcher(POST, "/user"))
+                    , new RequestMatcher(GET, "/book/rental/users")),
+            "NO_ROLE", List.of(new RequestMatcher(POST, "/user/login"), new RequestMatcher(POST, "/user"), new RequestMatcher(GET, "/books"))
     );
 
     private final Map<AuthorizationMatcher, RequestMatcher> dynamicAuthorizationMatcher = Map.of(
