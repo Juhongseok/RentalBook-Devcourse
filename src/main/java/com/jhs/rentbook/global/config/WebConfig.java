@@ -11,16 +11,30 @@ import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class WebConfig {
+
+    @Bean
+    public FilterRegistrationBean<Filter> corsFilter(CorsConfigurationSource source) {
+        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
+
+        registration.setFilter(new CorsFilter(source));
+        registration.setOrder(1);
+        registration.addUrlPatterns("/*");
+
+        return registration;
+    }
+
 
     @Bean
     public FilterRegistrationBean<Filter> exceptionHandlerFilter(ObjectMapper mapper) {
         FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
 
         registration.setFilter(new ExceptionHandlerFilter(mapper));
-        registration.setOrder(1);
+        registration.setOrder(2);
         registration.addUrlPatterns("/*");
 
         return registration;
@@ -31,7 +45,7 @@ public class WebConfig {
         FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
 
         registration.setFilter(new AuthenticationFilter(storage, repository));
-        registration.setOrder(2);
+        registration.setOrder(3);
         registration.addUrlPatterns("/*");
 
         return registration;
@@ -42,7 +56,7 @@ public class WebConfig {
         FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
 
         registration.setFilter(new AuthorizationFilter(storage, manager));
-        registration.setOrder(3);
+        registration.setOrder(4);
         registration.addUrlPatterns("/*");
 
         return registration;
