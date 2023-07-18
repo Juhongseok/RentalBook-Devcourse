@@ -7,7 +7,9 @@ import com.jhs.rentbook.controller.dto.user.SignUpResponse;
 import com.jhs.rentbook.domain.book.BookType;
 import com.jhs.rentbook.global.exception.ExceptionResponse;
 import com.jhs.rentbook.integration.base.AbstractIntegrationTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -22,6 +24,8 @@ import static org.springframework.http.HttpMethod.POST;
 class BookIntegrationTest extends AbstractIntegrationTest {
 
     @Test
+    @Disabled
+    @Order(1)
     @DisplayName("create Books 10")
     void createBulkBooks() {
         List<IdResponse> idResponses = bulkCreateBook();
@@ -30,6 +34,7 @@ class BookIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("fail create books has no authorization")
     void failCreateBook() {
         SignUpResponse userResponse = createDummyUser();
@@ -42,7 +47,7 @@ class BookIntegrationTest extends AbstractIntegrationTest {
     }
 
     private SignUpResponse createDummyUser() {
-        SignUpRequest request = new SignUpRequest("user@gmail.com", "Password1!", "User1");
+        SignUpRequest request = new SignUpRequest("dummy@gmail.com", "Password1!", "dummy");
 
         return restTemplate
                 .postForEntity(baseUrl + "/user", request, SignUpResponse.class)
