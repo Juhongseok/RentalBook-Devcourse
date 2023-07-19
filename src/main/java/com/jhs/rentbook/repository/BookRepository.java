@@ -1,19 +1,16 @@
 package com.jhs.rentbook.repository;
 
 import com.jhs.rentbook.domain.book.Book;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
 
-    @Query("select b from Book b join fetch b.rentalInfo ri join fetch ri.user u where u.id = :userId")
-    List<Book> findAllByUserId(@Param("userId") Long userId);
-
-    @EntityGraph(attributePaths = {"rentalInfo", "rentalInfo.user"})
-    List<Book> findAll();
+    @EntityGraph(attributePaths = {"rentalInfo.user"})
+    List<Book> findAll(Specification<Book> spec);
 
 }

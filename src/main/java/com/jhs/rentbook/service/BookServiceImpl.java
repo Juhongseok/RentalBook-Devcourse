@@ -1,21 +1,26 @@
 package com.jhs.rentbook.service;
 
 import com.jhs.rentbook.domain.book.Book;
+import com.jhs.rentbook.domain.book.RentalStatus;
 import com.jhs.rentbook.domain.rental.UserBookRental;
 import com.jhs.rentbook.domain.user.User;
 import com.jhs.rentbook.global.exception.custom.EntityNotFoundException;
 import com.jhs.rentbook.repository.BookRepository;
 import com.jhs.rentbook.repository.UserRepository;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.jhs.rentbook.domain.book.RentalStatus.RENT;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
@@ -28,7 +33,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        return bookRepository.findAll((root, query, builder) -> null);
     }
 
     @Override
@@ -39,14 +44,22 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<UserBookRental> findAllRentalInfo() {
-        return bookRepository.findAll().stream()
+        return bookRepository.findAll(
+                        (root, query, builder) ->
+                                builder.and(builder.equal(root.get("rental"), RENT))
+                ).stream()
                 .map(Book::rentals)
                 .toList();
     }
 
     @Override
     public List<UserBookRental> findAllRentalInfoByUserId(Long userId) {
-        return bookRepository.findAllByUserId(userId).stream()
+        return bookRepository.findAll(
+                        (root, query, builder) -> {
+                            Path<Long> target = root.get("rentalInfo").get("user").get("id");
+                            return builder.and(builder.equal(target, userId));
+                        }
+                ).stream()
                 .map(Book::rentals)
                 .toList();
     }
