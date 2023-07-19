@@ -13,7 +13,7 @@ public class UserIdAuthorizationMatcher implements AuthorizationMatcher{
         String[] uriParam = uri.split("/");
         boolean isMatchId = false;
         for (int i = 0; i < uriParam.length; i++) {
-            if (uriParam[i].equals("user")) {
+            if (uriParam[i].equals("users")) {
                 isMatchId = uriParam[i + 1].equals(String.valueOf(userId));
                 break;
             }
