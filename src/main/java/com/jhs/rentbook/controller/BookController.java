@@ -23,13 +23,14 @@ import java.util.Map;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
+@RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
 
     private final BookService service;
 
     @ResponseStatus(CREATED)
-    @PostMapping("/book")
+    @PostMapping
     public IdResponse saveBook(@RequestBody @Validated SaveBookRequest request) {
         Book book = Book.of(request.bookName(), request.bookType());
 
@@ -38,7 +39,7 @@ public class BookController {
         return new IdResponse(savedBook.getId());
     }
 
-    @GetMapping("/books")
+    @GetMapping
     public List<BookInfo> getAllBooks() {
         return service.findAll().stream()
                 .map(Book::values)
@@ -46,7 +47,7 @@ public class BookController {
                 .toList();
     }
 
-    @PostMapping("/book/{bookId}/rental")
+    @PostMapping("/{bookId}/rentals")
     public IdResponse rentBook(@PathVariable Long bookId, @RequestParam Long userId) {
         Book rentalBook = service.rentBook(userId, bookId);
         BookVo bookVo = rentalBook.values();
@@ -54,12 +55,12 @@ public class BookController {
         return new IdResponse(bookVo.id());
     }
 
-    @DeleteMapping("/book/{bookId}/rental/user/{userId}")
-    public IdResponse returnRentalBook(@PathVariable Long bookId, @RequestParam Long rentalId) {
+    @DeleteMapping("/{bookId}/rentals/{rentalId}/users/{userId}")
+    public IdResponse returnRentalBook(@PathVariable Long bookId, @PathVariable Long rentalId) {
         return new IdResponse(service.returnBook(rentalId, bookId));
     }
 
-    @GetMapping("/book/rental/user/{userId}")
+    @GetMapping("/rentals/users/{userId}")
     public List<RentalBookInfo> getOwnRentalBooks(@PathVariable Long userId) {
         return service.findAllRentalInfoByUserId(userId).stream()
                 .map(UserBookRental::values)
@@ -67,7 +68,7 @@ public class BookController {
                 .toList();
     }
 
-    @GetMapping("/book/rental/users")
+    @GetMapping("/rentals")
     public List<RentalBook> getAllRentalBooks() {
         List<UserBookRentalVo> values = service.findAllRentalInfo().stream()
                 .map(UserBookRental::values)

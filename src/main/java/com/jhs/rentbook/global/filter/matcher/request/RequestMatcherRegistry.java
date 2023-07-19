@@ -16,15 +16,15 @@ import static org.springframework.http.HttpMethod.*;
 public class RequestMatcherRegistry {
 
     private final Map<String, List<RequestMatcher>> accessUris = Map.of(
-            "USER", List.of(new RequestMatcher(POST, "/book/*/rental")),
-            "MANAGER", List.of(new RequestMatcher(POST, "/book"), new RequestMatcher(GET, "/users")
-                    , new RequestMatcher(GET, "/book/rental/users")),
-            "NO_ROLE", List.of(new RequestMatcher(POST, "/user/login"), new RequestMatcher(POST, "/user"), new RequestMatcher(GET, "/books"))
+            "USER", List.of(new RequestMatcher(POST, "/books/*/rentals")),
+            "MANAGER", List.of(new RequestMatcher(POST, "/books"), new RequestMatcher(GET, "/users")
+                    , new RequestMatcher(GET, "/books/rentals")),
+            "NO_ROLE", List.of(new RequestMatcher(POST, "/users/login"), new RequestMatcher(POST, "/users"), new RequestMatcher(GET, "/books"))
     );
 
     private final Map<AuthorizationMatcher, RequestMatcher> dynamicAuthorizationMatcher = Map.of(
-            new UserIdAuthorizationMatcher(), new RequestMatcher(DELETE, "/book/*/rental/user/*"),
-            new UserIdAuthorizationMatcher(), new RequestMatcher(GET, "/book/rental/user/*")
+            new UserIdAuthorizationMatcher(), new RequestMatcher(DELETE, "/books/*/rentals/*/users/*"),
+            new UserIdAuthorizationMatcher(), new RequestMatcher(GET, "/books/rentals/users/*")
     );
 
     public List<AuthorizationEntry> build() {

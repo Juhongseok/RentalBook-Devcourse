@@ -17,12 +17,13 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public List<UserInfo> getAllUserList() {
         return userService.getUserList().stream()
                 .map(User::values)
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @ResponseStatus(CREATED)
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public IdResponse login(@RequestBody @Validated LoginRequest request) {
         User loginUser = userService.login(request.email(), request.password());
 
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @ResponseStatus(CREATED)
-    @PostMapping("/user")
+    @PostMapping
     public SignUpResponse signUpUser(@RequestBody @Validated SignUpRequest request) {
         User user = User.of(request.email(), request.password(), request.name());
         UserVo value = userService.saveUser(user).values();
