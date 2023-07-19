@@ -38,11 +38,9 @@ public class UserBookRental {
         return new UserBookRentalVo(id, user.values(), book.values());
     }
 
-    public void returnBook(Long rentalId) {
+    public void checkId(Long rentalId) {
         if (!this.id.equals(rentalId)) {
             throw new NotMatchException("아이디가 일치하지 않습니다");
         }
-
-        this.book = null;
     }
 }

@@ -79,7 +79,7 @@ public class Book extends BaseTimeEntity {
 
     public void returnBook(Long rentalId) {
         this.rental = RentalStatus.RETURNED;
-        rentalInfo.returnBook(rentalId);
+        rentalInfo.checkId(rentalId);
         rentalInfo = null;
     }
 
