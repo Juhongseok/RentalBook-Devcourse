@@ -10,8 +10,7 @@ import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class ExceptionHandlerFilter implements Filter {
         try {
             chain.doFilter(request, response);
         } catch (BusinessException exception) {
-            responseException(BAD_REQUEST, exception.getMessage(), response);
+            responseException(UNAUTHORIZED, exception.getMessage(), response);
         } catch (AuthorizationException exception) {
             responseException(FORBIDDEN, exception.getMessage(), response);
         }

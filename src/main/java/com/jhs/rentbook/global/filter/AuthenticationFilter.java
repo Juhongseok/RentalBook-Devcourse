@@ -23,7 +23,7 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
 
-        String loginUserId = request.getHeader("LOGIN-ID");
+        String loginUserId = request.getHeader("Authorization");
 
         if (loginUserId != null) {
             UserVo values = userRepository.findById(Long.parseLong(loginUserId))
